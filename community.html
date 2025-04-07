@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkUtopia - Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5D69E3;
+            --secondary-color: #FF7B54;
+            --background-color: #F9F9FF;
+            --text-color: #333344;
+            --light-gray: #E8E8F0;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-blue: #3A3F7B;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Main Container */
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Header */
+        .app-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-gray);
+            background-color: white;
+            z-index: 10;
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .app-logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 10px;
+        }
+        
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        /* Main Content Area */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Search Bar Styles */
+        .community-search {
+            margin-bottom: 20px;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: var(--background-color);
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(93, 105, 227, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        /* Popular Section Styles */
+        .popular-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        /* Community Card Grid Layout */
+        .community-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .community-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .community-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .community-image {
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            background-color: var(--light-gray);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .community-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .community-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        
+        .community-card p {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        
+        .community-creator {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .creator-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            margin-right: 5px;
+            overflow: hidden;
+        }
+        
+        .creator-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .community-rating {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .community-rating i {
+            color: #FFD700;
+            margin-right: 3px;
+            font-size: 10px;
+        }
+        
+        /* Latest Section Styles */
+        .latest-section {
+            margin-top: 30px;
+        }
+        
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            overflow-x: auto;
+            padding: 5px 0 15px;
+            margin-bottom: 15px;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        .category-filter::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari, Opera */
+        }
+        
+        .category-tag {
+            padding: 8px 15px;
+            background-color: var(--light-gray);
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-right: 10px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .category-tag.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Navigation Bar */
+        .app-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 480px;
+            margin: 0 auto;
+            height: 60px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 33.33%;
+            height: 100%;
+            color: #757575;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="app-logo">
+                <i class="fas fa-comment-dots" style="color: var(--primary-color); font-size: 24px;"></i>
+                <h1>TalkUtopia</h1>
+            </div>
+            <div class="user-avatar">JD</div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="app-content">
+            <div class="page active" id="community-page">
+                <!-- Search Bar -->
+                <div class="community-search">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search learning scenarios..." class="search-input">
+                    </div>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <div class="category-tag active">All</div>
+                    <div class="category-tag">Business</div>
+                    <div class="category-tag">Daily Life</div>
+                    <div class="category-tag">Travel</div>
+                    <div class="category-tag">Academic</div>
+                    <div class="category-tag">Interview</div>
+                </div>
+                
+                <!-- Popular Section -->
+                <div class="popular-section">
+                    <h3 class="section-title">Popular Scenarios</h3>
+                    
+                    <div class="community-container">
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Business Meeting">
+                            </div>
+                            <h3>Business Meeting Simulation</h3>
+                            <p>Practice presenting ideas and negotiating deals</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Creator">
+                                </div>
+                                <span>by Michael S.</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.9
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://res.klook.com/image/upload/c_fill,w_1265,h_712/q_80/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/d7oqaliubicihmu4d6bm.webp" alt="London Tour">
+                            </div>
+                            <h3>London Tour Guide</h3>
+                            <p>Learn vocabulary for sightseeing in London</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Creator">
+                                </div>
+                                <span>by Emma L.</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.7
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Tech Interview">
+                            </div>
+                            <h3>Tech Interview Prep</h3>
+                            <p>Practice technical terminology and explanations</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Creator">
+                                </div>
+                                <span>by David K.</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Classroom">
+                            </div>
+                            <h3>University Classroom</h3>
+                            <p>Learn to participate in academic discussions</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/54.jpg" alt="Creator">
+                                </div>
+                                <span>by Sarah T.</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.6
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Latest Section -->
+                <div class="latest-section">
+                    <h3 class="section-title">Recently Added</h3>
+                    
+                    <div class="community-container">
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1560523160-754a9e25c68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Hospital Visit">
+                            </div>
+                            <h3>Hospital Visit Dialogue</h3>
+                            <p>Learn to describe symptoms and talk with doctors</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Creator">
+                                </div>
+                                <span>by Laura M.</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.5
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Coffee Shop">
+                            </div>
+                            <h3>Coffee Shop Ordering</h3>
+                            <p>Practice ordering different coffee varieties</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/28.jpg" alt="Creator">
+                                </div>
+                                <span>by Alex T.</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Bar -->
+        <div class="app-nav">
+            <div class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item active">
+                <i class="fas fa-book"></i>
+                <span>Community</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Category tag switching functionality
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                // Remove active class from all tags
+                document.querySelectorAll('.category-tag').forEach(t => {
+                    t.classList.remove('active');
+                });
+                // Add active class to clicked tag
+                tag.classList.add('active');
+                
+                // Here you would add logic to filter content
+                const category = tag.textContent;
+                console.log(`Filter by category: ${category}`);
+                // In a real application, there would be a function to filter content cards by category
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        if(searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                console.log(`Search term: ${searchTerm}`);
+                // In a real application, there would be a function to filter content by search term
+            });
+        }
+        
+        // Scenario card click events
+        document.querySelectorAll('.community-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Get scenario title
+                const title = card.querySelector('h3').textContent;
+                console.log(`Selected scenario: ${title}`);
+                // In a real application, this would navigate to the scenario detail page
+            });
+        });
+    </script>
+</body>
+</html>

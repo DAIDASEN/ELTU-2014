@@ -855,6 +855,105 @@
         .logout-button:hover {
             background-color: rgba(231, 76, 60, 0.1);
         }
+    /* Community search bar styles */
+    .community-search {
+        margin-bottom: 20px;
+    }
+    
+    .search-container {
+        position: relative;
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border: 1px solid var(--light-gray);
+        border-radius: 12px;
+        font-size: 14px;
+        transition: all 0.3s;
+        background-color: var(--background-color);
+    }
+    
+    .search-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(93, 105, 227, 0.1);
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+    }
+    
+    /* Popular section styles */
+    .popular-section {
+        margin-bottom: 25px;
+    }
+    
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    /* Custom page styles */
+    .custom-page {
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .custom-page.active {
+        display: block;
+    }
+    
+    .page-description {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 20px;
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .back-button {
+        flex: 1;
+        padding: 15px;
+        background-color: var(--light-gray);
+        color: var(--text-color);
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .back-button:hover {
+        background-color: #ddd;
+    }
+    
+    .back-button i, .create-button i {
+        margin: 0 5px;
+    }
+    
+    /* Update the existing create-button for the flex layout */
+    .create-button {
+        flex: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     </style>
 </head>
 <body>
@@ -1027,136 +1126,163 @@
                 </div>
                 
                 <!-- Custom 选项卡内容 -->
-                <div class="learning-content" id="custom-content">
-                    <div class="custom-form">
-                        <h2>Create Your Learning Scenario</h2>
-                        <p>Define your own learning objectives and AI characters to practice with</p>
-                        
-                        <div class="form-group">
-                            <label>Learning Objective</label>
-                            <input type="text" placeholder="What do you want to learn? (e.g. Negotiating a salary)">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Difficulty Level</label>
-                            <div class="difficulty-selector">
-                                <div class="difficulty-option">Beginner</div>
-                                <div class="difficulty-option active">Intermediate</div>
-                                <div class="difficulty-option">Advanced</div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>AI Characters</label>
-                            <div class="character-list">
-                                <div class="character-item">
-                                    <div class="character-avatar">
-                                        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="HR Manager">
-                                    </div>
-                                    <div class="character-info">
-                                        <h3>HR Manager</h3>
-                                        <p>Professional, formal communication style</p>
-                                    </div>
-                                    <div class="character-actions">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="add-npc-button"><i class="fas fa-plus"></i> Add Character</button>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Basic Prompt for AI</label>
-                            <textarea placeholder="Instructions for the AI character (e.g. You are an HR manager interviewing candidates for a software developer position...)"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Knowledge Base (Optional)</label>
-                            <textarea placeholder="Any specific information the AI should know (e.g. company details, job requirements...)"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Conversation Flow</label>
-                            <textarea placeholder="Outline how the conversation should progress (e.g. 1. Greeting, 2. Initial questions, 3. Salary negotiation...)"></textarea>
-                        </div>
-                        
-                        <button class="create-button">Create Custom Scenario</button>
-                    </div>
+                <!-- Community 选项卡内容 -->
+<div class="learning-content" id="community-content">
+    <!-- Search bar for community scenarios -->
+    <div class="community-search">
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" placeholder="Search learning scenarios..." class="search-input">
+        </div>
+    </div>
+    
+    <!-- Popular scenarios section -->
+    <div class="popular-section">
+        <h3 class="section-title">Popular Scenarios</h3>
+        
+        <div class="community-container">
+            <div class="community-card">
+                <div class="community-image">
+                    <img src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Business Meeting">
                 </div>
+                <h3>Business Meeting Simulation</h3>
+                <p>Practice presenting ideas and negotiating deals</p>
+                <div class="community-creator">
+                    <div class="creator-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Creator">
+                    </div>
+                    <span>by Michael S.</span>
+                </div>
+                <div class="community-rating">
+                    <i class="fas fa-star"></i> 4.9
+                </div>
+            </div>
+            
+            <div class="community-card">
+                <div class="community-image">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Travel Guide">
+                </div>
+                <h3>London Tour Guide</h3>
+                <p>Learn vocabulary for sightseeing in London</p>
+                <div class="community-creator">
+                    <div class="creator-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Creator">
+                    </div>
+                    <span>by Emma L.</span>
+                </div>
+                <div class="community-rating">
+                    <i class="fas fa-star"></i> 4.7
+                </div>
+            </div>
+            
+            <div class="community-card">
+                <div class="community-image">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Tech Interview">
+                </div>
+                <h3>Tech Interview Prep</h3>
+                <p>Practice technical terminology and explanations</p>
+                <div class="community-creator">
+                    <div class="creator-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Creator">
+                    </div>
+                    <span>by David K.</span>
+                </div>
+                <div class="community-rating">
+                    <i class="fas fa-star"></i> 4.8
+                </div>
+            </div>
+            
+            <div class="community-card">
+                <div class="community-image">
+                    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Classroom">
+                </div>
+                <h3>University Classroom</h3>
+                <p>Learn to participate in academic discussions</p>
+                <div class="community-creator">
+                    <div class="creator-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/54.jpg" alt="Creator">
+                    </div>
+                    <span>by Sarah T.</span>
+                </div>
+                <div class="community-rating">
+                    <i class="fas fa-star"></i> 4.6
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 
                 <!-- Community 选项卡内容 -->
-                <div class="learning-content" id="community-content">
-                    <div class="community-container">
-                        <div class="community-card">
-                            <div class="community-image">
-                                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Tech Interview">
-                            </div>
-                            <h3>Tech Interview with Google Engineer</h3>
-                            <p>Practice technical and behavioral questions</p>
-                            <div class="community-creator">
-                                <div class="creator-avatar">
-                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Creator">
-                                </div>
-                                <span>by Sarah Chen</span>
-                            </div>
-                            <div class="community-rating">
-                                <i class="fas fa-star"></i> 4.9
-                            </div>
-                        </div>
-                        
-                        <div class="community-card">
-                            <div class="community-image">
-                                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Networking Event">
-                            </div>
-                            <h3>Professional Networking Event</h3>
-                            <p>Learn to introduce yourself and make connections</p>
-                            <div class="community-creator">
-                                <div class="creator-avatar">
-                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Creator">
-                                </div>
-                                <span>by Michael Wong</span>
-                            </div>
-                            <div class="community-rating">
-                                <i class="fas fa-star"></i> 4.7
-                            </div>
-                        </div>
-                        
-                        <div class="community-card">
-                            <div class="community-image">
-                                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Medical Emergency">
-                            </div>
-                            <h3>Emergency Room Situation</h3>
-                            <p>Vocabulary for medical emergencies abroad</p>
-                            <div class="community-creator">
-                                <div class="creator-avatar">
-                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Creator">
-                                </div>
-                                <span>by Dr. Emily Johnson</span>
-                            </div>
-                            <div class="community-rating">
-                                <i class="fas fa-star"></i> 4.8
-                            </div>
-                        </div>
-                        
-                        <div class="community-card">
-                            <div class="community-image">
-                                <img src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Dating">
-                            </div>
-                            <h3>First Date Conversation</h3>
-                            <p>Practice casual dating conversations and flirting</p>
-                            <div class="community-creator">
-                                <div class="creator-avatar">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Creator">
-                                </div>
-                                <span>by Alex Martinez</span>
-                            </div>
-                            <div class="community-rating">
-                                <i class="fas fa-star"></i> 4.5
-                            </div>
-                        </div>
-                    </div>
+<!-- Custom 选项卡内容 -->
+<div class="learning-content" id="custom-content">
+    <!-- First page: Basic Scene Setup -->
+    <div class="custom-page active" id="custom-page-1">
+        <div class="create-objective">
+            <h2>Create Learning Scene</h2>
+            <div class="form-group">
+                <label for="scene-title">Scene Title</label>
+                <input type="text" id="scene-title" placeholder="Enter a title for your learning scene">
+            </div>
+            <div class="form-group">
+                <label for="scene-description">Scene Description</label>
+                <textarea id="scene-description" placeholder="Describe the learning scenario..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="learning-level">Difficulty Level</label>
+                <select id="learning-level">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="learning-goals">Learning Goals</label>
+                <textarea id="learning-goals" placeholder="What do you want to learn or practice? (e.g., ordering food, discussing business topics)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="scene-setting">Scene Setting</label>
+                <textarea id="scene-setting" placeholder="Describe the environment where the conversation takes place..."></textarea>
+            </div>
+            <button class="create-button" id="next-to-npc">Next: Configure Characters <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+    
+    <!-- Second page: NPC Configuration -->
+    <div class="custom-page" id="custom-page-2">
+        <div class="create-objective">
+            <h2>Configure AI Characters</h2>
+            <p class="page-description">Define the AI characters you'll interact with in your scene</p>
+            
+            <div class="npc-container">
+                <div class="npc-header">
+                    <h3>Character 1</h3>
+                    <span class="npc-action"><i class="fas fa-trash"></i></span>
                 </div>
+                <div class="form-group">
+                    <label>Base Prompt</label>
+                    <textarea placeholder="Define the character's personality, role, and background..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Knowledge Base</label>
+                    <textarea placeholder="What specific knowledge should this character have? (e.g., menu items for a waiter)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Interaction Flow</label>
+                    <textarea placeholder="How should this character interact? What conversational patterns should they follow?"></textarea>
+                </div>
+            </div>
+            
+            <button class="add-npc-button">
+                <i class="fas fa-plus"></i> Add Another Character
+            </button>
+            
+            <div class="button-group">
+                <button class="back-button" id="back-to-scene"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="create-button">Create Learning Scene <i class="fas fa-check"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
             
             <!-- User Settings 页面 -->
@@ -1509,6 +1635,94 @@
                 alert('Logging out...');
             });
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Tab navigation
+    const tabs = document.querySelectorAll('.learning-tab');
+    const contents = document.querySelectorAll('.learning-content');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            
+            // Deactivate all tabs and contents
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Activate selected tab and content
+            tab.classList.add('active');
+            document.getElementById(`${target}-content`).classList.add('active');
+        });
+    });
+    
+    // Custom section page navigation
+    const nextToNpcBtn = document.getElementById('next-to-npc');
+    const backToSceneBtn = document.getElementById('back-to-scene');
+    const customPage1 = document.getElementById('custom-page-1');
+    const customPage2 = document.getElementById('custom-page-2');
+    
+    if (nextToNpcBtn) {
+        nextToNpcBtn.addEventListener('click', () => {
+            customPage1.classList.remove('active');
+            customPage2.classList.add('active');
+        });
+    }
+    
+    if (backToSceneBtn) {
+        backToSceneBtn.addEventListener('click', () => {
+            customPage2.classList.remove('active');
+            customPage1.classList.add('active');
+        });
+    }
+    
+    // Add NPC button functionality
+    const addNpcBtn = document.querySelector('.add-npc-button');
+    if (addNpcBtn) {
+        let npcCount = 1;
+        
+        addNpcBtn.addEventListener('click', () => {
+            npcCount++;
+            
+            const npcTemplate = `
+                <div class="npc-container">
+                    <div class="npc-header">
+                        <h3>Character ${npcCount}</h3>
+                        <span class="npc-action"><i class="fas fa-trash"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Base Prompt</label>
+                        <textarea placeholder="Define the character's personality, role, and background..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Knowledge Base</label>
+                        <textarea placeholder="What specific knowledge should this character have? (e.g., menu items for a waiter)"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Interaction Flow</label>
+                        <textarea placeholder="How should this character interact? What conversational patterns should they follow?"></textarea>
+                    </div>
+                </div>
+            `;
+            
+            addNpcBtn.insertAdjacentHTML('beforebegin', npcTemplate);
+            
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.npc-action').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.npc-container').remove();
+                });
+            });
+        });
+    }
+    
+    // Initialize delete functionality for existing NPCs
+    document.querySelectorAll('.npc-action').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.npc-container').remove();
+        });
+    });
+});
     </script>
 </body>
 </html>

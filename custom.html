@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Learning Scenarios - TalkUtopia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5D69E3;
+            --secondary-color: #FF7B54;
+            --background-color: #F9F9FF;
+            --text-color: #333344;
+            --light-gray: #E8E8F0;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-blue: #3A3F7B;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .custom-page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .custom-page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .create-objective {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .create-objective h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .page-description {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: var(--background-color);
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(93, 105, 227, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .npc-container {
+            background-color: var(--background-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .npc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .npc-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .npc-action {
+            color: var(--danger-color);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .add-npc-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            border: 1px dashed #ccc;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .add-npc-button:hover {
+            background-color: rgba(93, 105, 227, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .add-npc-button i {
+            margin-right: 8px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .back-button {
+            flex: 1;
+            padding: 15px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-button:hover {
+            background-color: #ddd;
+        }
+        
+        .create-button {
+            flex: 2;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .create-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(93, 105, 227, 0.3);
+        }
+        
+        .back-button i, .create-button i {
+            margin: 0 5px;
+        }
+        
+        .page-navigation {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+        }
+        
+        .page-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+        
+        .page-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Navigation Indicator -->
+    <div class="page-navigation">
+        <div class="page-indicator">
+            <div class="page-dot active" data-page="1"></div>
+            <div class="page-dot" data-page="2"></div>
+        </div>
+    </div>
+
+    <!-- First page: Basic Scene Setup -->
+    <div class="custom-page active" id="custom-page-1">
+        <div class="create-objective">
+            <h2>Create Learning Scene</h2>
+            <div class="form-group">
+                <label for="scene-title">Scene Title</label>
+                <input type="text" id="scene-title" placeholder="Enter a title for your learning scene">
+            </div>
+            <div class="form-group">
+                <label for="scene-description">Scene Description</label>
+                <textarea id="scene-description" placeholder="Describe the learning scenario..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="learning-level">Difficulty Level</label>
+                <select id="learning-level">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="learning-goals">Learning Goals</label>
+                <textarea id="learning-goals" placeholder="What do you want to learn or practice? (e.g., ordering food, discussing business topics)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="scene-setting">Scene Setting</label>
+                <textarea id="scene-setting" placeholder="Describe the environment where the conversation takes place..."></textarea>
+            </div>
+            <button class="create-button" id="next-to-npc">Next: Configure Characters <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+    
+    <!-- Second page: NPC Configuration -->
+    <div class="custom-page" id="custom-page-2">
+        <div class="create-objective">
+            <h2>Configure AI Characters</h2>
+            <p class="page-description">Define the AI characters you'll interact with in your scene</p>
+            
+            <div class="npc-container">
+                <div class="npc-header">
+                    <h3>Character 1</h3>
+                    <span class="npc-action"><i class="fas fa-trash"></i></span>
+                </div>
+                <div class="form-group">
+                    <label>Base Prompt</label>
+                    <textarea placeholder="Define the character's personality, role, and background..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Knowledge Base</label>
+                    <textarea placeholder="What specific knowledge should this character have? (e.g., menu items for a waiter)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Interaction Flow</label>
+                    <textarea placeholder="How should this character interact? What conversational patterns should they follow?"></textarea>
+                </div>
+            </div>
+            
+            <button class="add-npc-button">
+                <i class="fas fa-plus"></i> Add Another Character
+            </button>
+            
+            <div class="button-group">
+                <button class="back-button" id="back-to-scene"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="create-button">Create Learning Scene <i class="fas fa-check"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Page navigation
+            const nextToNpcBtn = document.getElementById('next-to-npc');
+            const backToSceneBtn = document.getElementById('back-to-scene');
+            const customPage1 = document.getElementById('custom-page-1');
+            const customPage2 = document.getElementById('custom-page-2');
+            const pageDots = document.querySelectorAll('.page-dot');
+            
+            if (nextToNpcBtn) {
+                nextToNpcBtn.addEventListener('click', () => {
+                    customPage1.classList.remove('active');
+                    customPage2.classList.add('active');
+                    pageDots[0].classList.remove('active');
+                    pageDots[1].classList.add('active');
+                });
+            }
+            
+            if (backToSceneBtn) {
+                backToSceneBtn.addEventListener('click', () => {
+                    customPage2.classList.remove('active');
+                    customPage1.classList.add('active');
+                    pageDots[1].classList.remove('active');
+                    pageDots[0].classList.add('active');
+                });
+            }
+
+            // Page indicator navigation
+            pageDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const pageNum = dot.dataset.page;
+                    
+                    // Hide all pages and deactivate all dots
+                    document.querySelectorAll('.custom-page').forEach(page => page.classList.remove('active'));
+                    pageDots.forEach(dot => dot.classList.remove('active'));
+                    
+                    // Show selected page and activate corresponding dot
+                    document.getElementById(`custom-page-${pageNum}`).classList.add('active');
+                    dot.classList.add('active');
+                });
+            });
+            
+            // Add NPC button functionality
+            const addNpcBtn = document.querySelector('.add-npc-button');
+            if (addNpcBtn) {
+                let npcCount = 1;
+                
+                addNpcBtn.addEventListener('click', () => {
+                    npcCount++;
+                    
+                    const npcTemplate = `
+                        <div class="npc-container">
+                            <div class="npc-header">
+                                <h3>Character ${npcCount}</h3>
+                                <span class="npc-action"><i class="fas fa-trash"></i></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Base Prompt</label>
+                                <textarea placeholder="Define the character's personality, role, and background..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Knowledge Base</label>
+                                <textarea placeholder="What specific knowledge should this character have? (e.g., menu items for a waiter)"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Interaction Flow</label>
+                                <textarea placeholder="How should this character interact? What conversational patterns should they follow?"></textarea>
+                            </div>
+                        </div>
+                    `;
+                    
+                    addNpcBtn.insertAdjacentHTML('beforebegin', npcTemplate);
+                    
+                    // Add event listeners for delete buttons
+                    initDeleteButtons();
+                });
+            }
+            
+            // Initialize delete functionality for existing NPCs
+            function initDeleteButtons() {
+                document.querySelectorAll('.npc-action').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        this.closest('.npc-container').remove();
+                    });
+                });
+            }
+            
+            initDeleteButtons();
+        });
+    </script>
+</body>
+</html>

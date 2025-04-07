@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop Immersive Learning</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+        
+        /* 全屏水平布局 */
+        .immersive-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            background-color: #1a1a1a;
+        }
+        
+        /* 场景视图区域 */
+        .scene-view {
+            flex: 3;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* 咖啡师角色 */
+        .barista {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 450px;
+            background-image: url('https://img.freepik.com/free-vector/barista-concept-illustration_114360-1894.jpg');
+            background-size: contain;
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            transition: transform 0.3s ease;
+        }
+        
+        .barista:hover {
+            transform: translateX(-50%) scale(1.05);
+            cursor: pointer;
+        }
+        
+        /* 对话气泡 */
+        .speech-bubble {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            border-radius: 20px;
+            padding: 15px 20px;
+            max-width: 80%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+        
+        .speech-bubble.visible {
+            opacity: 1;
+        }
+        
+        /* 交互区域 */
+        .interaction-panel {
+            flex: 2;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 对话历史 */
+        .conversation-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        
+        .barista-message {
+            background-color: #e9f5ff;
+            border-left: 4px solid #4a90e2;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background-color: #f0f7eb;
+            border-right: 4px solid #7ac555;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        /* 输入区域 */
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .response-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .response-option {
+            background-color: #f0f7ff;
+            border: 1px solid #d0e3ff;
+            border-radius: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .response-option:hover {
+            background-color: #d0e3ff;
+            transform: translateY(-2px);
+        }
+        
+        .custom-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .custom-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .custom-input input:focus {
+            border-color: #4a90e2;
+        }
+        
+        .send-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            background-color: #3a80d2;
+        }
+        
+        /* 学习辅助工具 */
+        .learning-tools {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .tool-button {
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .tool-button:hover {
+            background-color: #e5e5e5;
+        }
+        
+        /* 场景控制 */
+        .scene-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .scene-control-btn {
+            background-color: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .scene-control-btn:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* 情境菜单 */
+        .context-menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .context-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .context-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .learning-objectives {
+            font-size: 14px;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+        
+        .objectives-list {
+            list-style-type: none;
+            margin-left: 5px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .objectives-list li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .objectives-list li:before {
+            content: "•";
+            color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="immersive-container">
+        <!-- 场景视图 -->
+        <div class="scene-view">
+            <!-- 咖啡师角色 -->
+            <div class="barista"></div>
+            
+            <!-- 对话气泡 -->
+            <div class="speech-bubble visible">
+                <p>Hello there! Welcome to Brew Haven. What can I get for you today?</p>
+            </div>
+            
+            <!-- 场景控制 -->
+            <div class="scene-controls">
+                <button class="scene-control-btn" title="Fullscreen">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                </button>
+                <button class="scene-control-btn" title="Volume">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- 情境菜单 -->
+            <div class="context-menu">
+                <div class="context-title">Coffee Shop Scenario</div>
+                <div class="context-description">
+                    Practice ordering coffee and engaging in casual conversation with a barista.
+                </div>
+                <div class="learning-objectives">Learning Objectives:</div>
+                <ul class="objectives-list">
+                    <li>Order beverages using appropriate phrases</li>
+                    <li>Ask questions about menu items</li>
+                    <li>Engage in small talk</li>
+                    <li>Handle payment vocabulary</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 交互面板 -->
+        <div class="interaction-panel">
+            <div class="conversation-history">
+                <div class="message barista-message">
+                    <strong>Barista:</strong> Hello there! Welcome to Brew Haven. What can I get for you today?
+                </div>
+                <!-- 对话历史将在这里动态添加 -->
+            </div>
+            
+            <div class="input-area">
+                <div class="response-options">
+                    <div class="response-option">Hi! Can I see the menu, please?</div>
+                    <div class="response-option">I'd like a coffee, please.</div>
+                    <div class="response-option">What's your most popular drink?</div>
+                    <div class="response-option">Do you have any specials today?</div>
+                </div>
+                
+                <div class="custom-input">
+                    <input type="text" placeholder="Type your response..." />
+                    <button class="send-btn">Send</button>
+                </div>
+            </div>
+            
+            <div class="learning-tools">
+                <button class="tool-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Hint
+                </button>
+                <button class="tool-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    Vocabulary
+                </button>
+                <button class="tool-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    Save Phrase
+                </button>
+                <button class="tool-button">
+                    <svg width="16" height="16" viewBox="0 0 24 
