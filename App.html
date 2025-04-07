@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkUtopia - AI English Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5D69E3;
+            --secondary-color: #FF7B54;
+            --background-color: #F9F9FF;
+            --text-color: #333344;
+            --light-gray: #E8E8F0;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-blue: #3A3F7B;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 主容器 */
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* 顶部标题栏 */
+        .app-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-gray);
+            background-color: white;
+            z-index: 10;
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .app-logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 10px;
+        }
+        
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        /* 主内容区域 */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* 底部导航栏 */
+       /* 底部导航栏样式 */
+        /* 底部导航栏样式 */
+.app-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 800px; /* 与页面内容保持一致的最大宽度 */
+    margin: 0 auto; /* 居中显示 */
+    height: 60px;
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 33.33%;
+    height: 100%;
+    color: #757575;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.nav-item span {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.nav-item.active {
+    color: #4a6fa5;
+}
+
+
+        
+        /* 页面内容 */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Explore Utopia 页面样式 */
+        .progress-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-title h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .progress-title span {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            width: 65%;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .current-scene {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scene-header {
+            margin-bottom: 15px;
+        }
+        
+        .scene-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .scene-header p {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .scene-image {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            background-color: var(--light-gray);
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .scene-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .scene-difficulty {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .scene-characters {
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .character {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 15px;
+            min-width: 60px;
+        }
+        
+        .character-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+        
+        .character-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .character-name {
+            font-size: 12px;
+            text-align: center;
+            color: var(--text-color);
+        }
+        
+        .start-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(93, 105, 227, 0.3);
+        }
+        
+        .start-button i {
+            margin-left: 10px;
+        }
+        
+        /* Learning Objectives 页面样式 */
+        .learning-tabs {
+            display: flex;
+            background-color: var(--light-gray);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            padding: 5px;
+        }
+        
+        .learning-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .learning-tab.active {
+            background-color: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .learning-content {
+            display: none;
+        }
+        
+        .learning-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .scenario-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scenario-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .scenario-icon i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .scenario-info {
+            flex: 1;
+        }
+        
+        .scenario-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .scenario-info p {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .scenario-tags {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        .create-objective {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .create-objective h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: var(--background-color);
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(93, 105, 227, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .npc-container {
+            background-color: var(--background-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .npc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .npc-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .npc-action {
+            color: var(--danger-color);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .add-npc-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            border: 1px dashe
+	}
+
+	        .add-npc-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            border: 1px dashed #ccc;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .add-npc-button:hover {
+            background-color: rgba(93, 105, 227, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .add-npc-button i {
+            margin-right: 8px;
+        }
+        
+        .create-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .create-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(93, 105, 227, 0.3);
+        }
+        
+        .community-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .community-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .community-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .community-image {
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            background-color: var(--light-gray);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .community-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .community-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        
+        .community-card p {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        
+        .community-creator {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .creator-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            margin-right: 5px;
+            overflow: hidden;
+        }
+        
+        .creator-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .community-rating {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .community-rating i {
+            color: #FFD700;
+            margin-right: 3px;
+            font-size: 10px;
+        }
+        
+        /* User Settings 页面样式 */
+        .settings-section {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .settings-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-item-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .settings-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .settings-icon i {
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+        
+        .settings-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .settings-info p {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .settings-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .settings-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--light-gray);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        .settings-arrow {
+            color: #888;
+            font-size: 18px;
+        }
+        
+        .ai-models {
+            margin-top: 10px;
+        }
+        
+        .model-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .model-option:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(93, 105, 227, 0.05);
+        }
+        
+        .model-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(93, 105, 227, 0.1);
+        }
+        
+        .model-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--light-gray);
+            margin-right: 15px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .model-option.selected .model-radio {
+            border-color: var(--primary-color);
+        }
+        
+        .model-option.selected .model-radio:after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .model-info {
+            flex: 1;
+        }
+        
+        .model-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .model-info p {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .model-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            margin-left: 10px;
+            color: var(--text-color);
+        }
+        
+        .model-option.selected .model-badge {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .logout-button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--light-gray);
+            color: var(--danger-color);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .logout-button:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部标题栏 -->
+        <div class="app-header">
+            <div class="app-logo">
+                <i class="fas fa-comment-dots" style="color: var(--primary-color); font-size: 24px;"></i>
+                <h1>TalkUtopia</h1>
+            </div>
+            <div class="user-avatar">JD</div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div class="app-content">
+            <!-- Explore Utopia 页面 -->
+            <div class="page active" id="explore-page">
+                <div class="progress-container">
+                    <div class="progress-title">
+                        <h2>Your Progress</h2>
+                        <span>Level 4</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Days Streak</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">65%</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">28</div>
+                            <div class="stat-label">Conversations</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="current-scene">
+                    <div class="scene-header">
+                        <h2>Coffee Shop Conversation</h2>
+                        <p>Practice ordering and small talk with the barista</p>
+                    </div>
+                    <div class="scene-image">
+                        <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Coffee Shop">
+                        <div class="scene-difficulty">Intermediate</div>
+                    </div>
+                    <div class="scene-characters">
+                        <div class="character">
+                            <div class="character-avatar">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Barista">
+                            </div>
+                            <div class="character-name">Emma<br>(Barista)</div>
+                        </div>
+                        <div class="character">
+                            <div class="character-avatar">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer">
+                            </div>
+                            <div class="character-name">Mike<br>(Customer)</div>
+                        </div>
+                    </div>
+                    <button class="start-button">Start Conversation <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <!-- Learning Objectives 页面 -->
+            <div class="page" id="objectives-page">
+                <div class="learning-tabs">
+                    <div class="learning-tab active" data-tab="predefined">Predefined</div>
+                    <div class="learning-tab" data-tab="custom">Custom</div>
+                    <div class="learning-tab" data-tab="community">Community</div>
+                </div>
+                
+                <!-- Predefined 选项卡内容 -->
+                <div class="learning-content active" id="predefined-content">
+                    <div class="scenario-card">
+                        <div class="scenario-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="scenario-info">
+                            <h3>Restaurant Dining</h3>
+                            <p>Learn how to order food, make special requests, and engage in dinner conversation</p>
+                            <div class="scenario-tags">
+                                <span class="tag">Food</span>
+                                <span class="tag">Social</span>
+                                <span class="tag">Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scenario-card">
+                        <div class="scenario-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="scenario-info">
+                            <h3>Job Interview</h3>
+                            <p>Practice answering common interview questions and discussing your qualifications</p>
+                            <div class="scenario-tags">
+                                <span class="tag">Business</span>
+                                <span class="tag">Career</span>
+                                <span class="tag">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scenario-card">
+                        <div class="scenario-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <div class="scenario-info">
+                            <h3>Airport Navigation</h3>
+                            <p>Learn to check in, go through security, and find your gate at an airport</p>
+                            <div class="scenario-tags">
+                                <span class="tag">Travel</span>
+                                <span class="tag">
+                                <span class="tag">Travel</span>
+                                <span class="tag">Practical</span>
+                                <span class="tag">Beginner</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scenario-card">
+                        <div class="scenario-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="scenario-info">
+                            <h3>Shopping Mall</h3>
+                            <p>Practice asking for sizes, colors, and negotiating prices in retail stores</p>
+                            <div class="scenario-tags">
+                                <span class="tag">Shopping</span>
+                                <span class="tag">Casual</span>
+                                <span class="tag">Beginner</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scenario-card">
+                        <div class="scenario-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="scenario-info">
+                            <h3>Doctor's Visit</h3>
+                            <p>Learn to describe symptoms and understand medical advice</p>
+                            <div class="scenario-tags">
+                                <span class="tag">Health</span>
+                                <span class="tag">Practical</span>
+                                <span class="tag">Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scenario-card">
+                        <div class="scenario-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="scenario-info">
+                            <h3>University Campus</h3>
+                            <p>Practice conversations with professors and classmates in an academic setting</p>
+                            <div class="scenario-tags">
+                                <span class="tag">Education</span>
+                                <span class="tag">Academic</span>
+                                <span class="tag">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Custom 选项卡内容 -->
+                <div class="learning-content" id="custom-content">
+                    <div class="custom-form">
+                        <h2>Create Your Learning Scenario</h2>
+                        <p>Define your own learning objectives and AI characters to practice with</p>
+                        
+                        <div class="form-group">
+                            <label>Learning Objective</label>
+                            <input type="text" placeholder="What do you want to learn? (e.g. Negotiating a salary)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Difficulty Level</label>
+                            <div class="difficulty-selector">
+                                <div class="difficulty-option">Beginner</div>
+                                <div class="difficulty-option active">Intermediate</div>
+                                <div class="difficulty-option">Advanced</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>AI Characters</label>
+                            <div class="character-list">
+                                <div class="character-item">
+                                    <div class="character-avatar">
+                                        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="HR Manager">
+                                    </div>
+                                    <div class="character-info">
+                                        <h3>HR Manager</h3>
+                                        <p>Professional, formal communication style</p>
+                                    </div>
+                                    <div class="character-actions">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="add-npc-button"><i class="fas fa-plus"></i> Add Character</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Basic Prompt for AI</label>
+                            <textarea placeholder="Instructions for the AI character (e.g. You are an HR manager interviewing candidates for a software developer position...)"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Knowledge Base (Optional)</label>
+                            <textarea placeholder="Any specific information the AI should know (e.g. company details, job requirements...)"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Conversation Flow</label>
+                            <textarea placeholder="Outline how the conversation should progress (e.g. 1. Greeting, 2. Initial questions, 3. Salary negotiation...)"></textarea>
+                        </div>
+                        
+                        <button class="create-button">Create Custom Scenario</button>
+                    </div>
+                </div>
+                
+                <!-- Community 选项卡内容 -->
+                <div class="learning-content" id="community-content">
+                    <div class="community-container">
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Tech Interview">
+                            </div>
+                            <h3>Tech Interview with Google Engineer</h3>
+                            <p>Practice technical and behavioral questions</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Creator">
+                                </div>
+                                <span>by Sarah Chen</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.9
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Networking Event">
+                            </div>
+                            <h3>Professional Networking Event</h3>
+                            <p>Learn to introduce yourself and make connections</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Creator">
+                                </div>
+                                <span>by Michael Wong</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.7
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Medical Emergency">
+                            </div>
+                            <h3>Emergency Room Situation</h3>
+                            <p>Vocabulary for medical emergencies abroad</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Creator">
+                                </div>
+                                <span>by Dr. Emily Johnson</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </div>
+                        </div>
+                        
+                        <div class="community-card">
+                            <div class="community-image">
+                                <img src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Dating">
+                            </div>
+                            <h3>First Date Conversation</h3>
+                            <p>Practice casual dating conversations and flirting</p>
+                            <div class="community-creator">
+                                <div class="creator-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Creator">
+                                </div>
+                                <span>by Alex Martinez</span>
+                            </div>
+                            <div class="community-rating">
+                                <i class="fas fa-star"></i> 4.5
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Settings 页面 -->
+            <div class="page" id="settings-page">
+                <div class="settings-section">
+                    <h2>Account Settings</h2>
+                    <div class="settings-item">
+                        <div class="settings-item-left">
+                            <div class="settings-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="settings-info">
+                                <h3>Profile Information</h3>
+                                <p>Update your personal details</p>
+                            </div>
+                        </div>
+                        <div class="settings-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-item-left">
+                            <div class="settings-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="settings-info">
+                                <h3>Password & Security</h3>
+                                <p>Manage your password and security options</p>
+                            </div>
+                        </div>
+                        <div class="settings-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-item-left">
+                            <div class="settings-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="settings-info">
+                                <h3>Subscription</h3>
+                                <p>Manage your subscription plan</p>
+                            </div>
+                        </div>
+                        <div class="settings-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2>AI Model Settings</h2>
+                    <p>Choose which AI model to use for conversations</p>
+                    
+                    <div class="ai-models">
+                        <div class="model-option" data-model="default">
+                            <div class="model-radio"></div>
+                            <div class="model-info">
+                                <h3>TalkUtopia Default</h3>
+                                <p>Our optimized model for language learning</p>
+                            </div>
+                            <div class="model-badge">Default</div>
+                        </div>
+                        
+                        <div class="model-option selected" data-model="gpt4">
+                            <div class="model-radio"></div>
+                            <div class="model-info">
+                                <h3>GPT-4</h3>
+                                <p>Advanced model with broader knowledge</p>
+                            </div>
+                            <div class="model-badge">Premium</div>
+                        </div>
+                        
+                        <div class="model-option" data-model="custom">
+                            <div class="model-radio"></div>
+                            <div class="model-info">
+                                <h3>Custom Model</h3>
+                                <p>Connect your own API</p>
+                            </div>
+                            <div class="model-badge">Advanced</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom API input field (hidden by default) -->
+                    <div class="custom-api-section" style="display: none; margin-top: 20px;">
+                        <div class="form-group">
+                            <label for="custom-api-key">Your API Key</label>
+                            <div class="input-group">
+                                <input type="password" id="custom-api-key" placeholder="Enter your API key">
+                                <button class="verify-button">Verify</button>
+                            </div>
+                            <p class="helper-text" style="font-size: 12px; color: #888; margin-top: 5px;">
+                                Enter your API key to connect with your custom model. Your key is stored securely.
+                            </p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="custom-api-endpoint">API Endpoint (Optional)</label>
+                            <div class="input-group">
+                                <input type="text" id="custom-api-endpoint" placeholder="https://api.example.com/v1">
+                            </div>
+                            <p class="helper-text" style="font-size: 12px; color: #888; margin-top: 5px;">
+                                Leave blank to use our default endpoint configuration
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    /* 美化验证按钮样式 */
+                    .verify-button {
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background: linear-gradient(135deg, #5D69E3, #4A56C8);
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        padding: 8px 16px;
+                        font-size: 13px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 2px 5px rgba(93, 105, 227, 0.3);
+                    }
+                    
+                    .verify-button:hover {
+                        background: linear-gradient(135deg, #4A56C8, #3A46B8);
+                        box-shadow: 0 4px 8px rgba(93, 105, 227, 0.4);
+                        transform: translateY(-50%) translateX(-2px);
+                    }
+                    
+                    .verify-button:active {
+                        transform: translateY(-50%) scale(0.98);
+                    }
+                    
+                    /* 确保输入框有足够空间容纳按钮 */
+                    .input-group {
+                        position: relative;
+                    }
+                    
+                    .input-group input {
+                        padding-right: 90px; /* 为按钮留出空间 */
+                    }
+                </style>
+                
+                <script>
+                    // Add this to your existing JavaScript
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const modelOptions = document.querySelectorAll('.model-option');
+                        const customApiSection = document.querySelector('.custom-api-section');
+                        
+                        modelOptions.forEach(option => {
+                            option.addEventListener('click', function() {
+                                // Remove selected class from all options
+                                modelOptions.forEach(opt => opt.classList.remove('selected'));
+                                
+                                // Add selected class to clicked option
+                                this.classList.add('selected');
+                                
+                                // Show/hide custom API section based on selection
+                                if (this.getAttribute('data-model') === 'custom') {
+                                    customApiSection.style.display = 'block';
+                                } else {
+                                    customApiSection.style.display = 'none';
+                                }
+                            });
+                        });
+                        
+                        // 添加验证按钮效果
+                        const verifyButton = document.querySelector('.verify-button');
+                        if (verifyButton) {
+                            verifyButton.addEventListener('click', function() {
+                                const apiKey = document.getElementById('custom-api-key').value;
+                                if (apiKey.trim() === '') {
+                                    alert('Please enter an API key');
+                                    return;
+                                }
+                                
+                                // 验证中状态
+                                this.textContent = 'Verifying...';
+                                this.disabled = true;
+                                
+                                // 模拟验证过程
+                                setTimeout(() => {
+                                    this.textContent = 'Verified ✓';
+                                    this.style.background = 'linear-gradient(135deg, #34C759, #28A745)';
+                                    
+                                    // 恢复按钮状态
+                                    setTimeout(() => {
+                                        this.textContent = 'Verify';
+                                        this.style.background = 'linear-gradient(135deg, #5D69E3, #4A56C8)';
+                                        this.disabled = false;
+                                    }, 2000);
+                                }, 1500);
+                            });
+                        }
+                    });
+                </script>
+                
+                
+                <script>
+                    // Add this to your existing JavaScript
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const modelOptions = document.querySelectorAll('.model-option');
+                        const customApiSection = document.querySelector('.custom-api-section');
+                        
+                        modelOptions.forEach(option => {
+                            option.addEventListener('click', function() {
+                                // Remove selected class from all options
+                                modelOptions.forEach(opt => opt.classList.remove('selected'));
+                                
+                                // Add selected class to clicked option
+                                this.classList.add('selected');
+                                
+                                // Show/hide custom API section based on selection
+                                if (this.getAttribute('data-model') === 'custom') {
+                                    customApiSection.style.display = 'block';
+                                } else {
+                                    customApiSection.style.display = 'none';
+                                }
+                            });
+                        });
+                    });
+                </script>
+                
+                
+                <button class="logout-button">Log Out</button>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="app-nav">
+            <div class="nav-item active" data-page="explore-page">
+                <i class="fas fa-compass"></i>
+                <span>Explore</span>
+            </div>
+            <div class="nav-item" data-page="objectives-page">
+                <i class="fas fa-tasks"></i>
+                <span>Objectives</span>
+            </div>
+            <div class="nav-item" data-page="settings-page">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面切换功能
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = document.querySelectorAll('.page');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const pageId = this.getAttribute('data-page');
+                
+                // 更新导航栏活跃状态
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 更新页面显示
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+        
+        // 学
+        // 学习目标选项卡切换功能
+        const learningTabs = document.querySelectorAll('.learning-tab');
+        const learningContents = document.querySelectorAll('.learning-content');
+        
+        learningTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const contentId = this.getAttribute('data-content');
+                
+                // 更新选项卡活跃状态
+                learningTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 更新内容显示
+                learningContents.forEach(content => content.style.display = 'none');
+                document.getElementById(contentId).style.display = 'block';
+            });
+        });
+        
+        // 场景卡片点击事件
+        const scenarioCards = document.querySelectorAll('.scenario-card');
+        scenarioCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // 这里可以添加场景详情页面的跳转逻辑
+                alert('Opening scenario: ' + this.querySelector('h3').textContent);
+            });
+        });
+        
+        // 添加NPC按钮点击事件
+        const addNpcButton = document.querySelector('.add-npc-button');
+        if (addNpcButton) {
+            addNpcButton.addEventListener('click', function() {
+                // 这里可以添加弹出添加NPC表单的逻辑
+                alert('Add new AI character');
+            });
+        }
+        
+        // 创建自定义场景按钮点击事件
+        const createButton = document.querySelector('.create-button');
+        if (createButton) {
+            createButton.addEventListener('click', function() {
+                // 这里可以添加创建自定义场景的逻辑
+                alert('Creating your custom scenario...');
+            });
+        }
+        
+        // 社区卡片点击事件
+        const communityCards = document.querySelectorAll('.community-card');
+        communityCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // 这里可以添加社区场景详情页面的跳转逻辑
+                alert('Opening community scenario: ' + this.querySelector('h3').textContent);
+            });
+        });
+        
+        // 设置项点击事件
+        const settingsItems = document.querySelectorAll('.settings-item');
+        settingsItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const settingName = this.querySelector('h3').textContent;
+                // 这里可以添加打开设置详情页的逻辑
+                if (!this.querySelector('.settings-toggle')) {
+                    alert('Opening setting: ' + settingName);
+                }
+            });
+        });
+        
+        // AI模型选择点击事件
+        const modelOptions = document.querySelectorAll('.model-option');
+        modelOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                modelOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // 登出按钮点击事件
+        const logoutButton = document.querySelector('.logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function() {
+                // 这里可以添加登出逻辑
+                alert('Logging out...');
+            });
+        }
+    </script>
+</body>
+</html>

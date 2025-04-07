@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalkUtopia Artistic Text</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f7f9fc;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    .logo-container {
+      text-align: center;
+      padding: 40px;
+      max-width: 600px;
+    }
+    
+    .artistic-text {
+      position: relative;
+      display: inline-block;
+      font-size: 0; /* 消除内部元素间距 */
+    }
+    
+    .letter {
+      display: inline-block;
+      font-size: 72px;
+      font-weight: 900;
+      font-family: 'Arial', sans-serif;
+      position: relative;
+      transform-origin: center bottom;
+      transition: transform 0.3s ease;
+    }
+    
+    /* 字母T */
+    .letter:nth-child(1) {
+      color: #3498db;
+      text-shadow: 3px 3px 0 #2980b9;
+      transform: rotate(-3deg);
+    }
+    
+    /* 字母a */
+    .letter:nth-child(2) {
+      color: #2ecc71;
+      text-shadow: 3px 3px 0 #27ae60;
+      transform: rotate(2deg) translateY(-5px);
+      font-size: 65px;
+    }
+    
+    /* 字母l */
+    .letter:nth-child(3) {
+      color: #9b59b6;
+      text-shadow: 3px 3px 0 #8e44ad;
+      transform: rotate(-2deg);
+    }
+    
+    /* 字母k */
+    .letter:nth-child(4) {
+      color: #e74c3c;
+      text-shadow: 3px 3px 0 #c0392b;
+      transform: rotate(3deg) translateY(-3px);
+    }
+    
+    /* 字母U */
+    .letter:nth-child(5) {
+      color: #f39c12;
+      text-shadow: 3px 3px 0 #d35400;
+      transform: rotate(-2deg) translateY(2px);
+      font-size: 68px;
+    }
+    
+    /* 字母t */
+    .letter:nth-child(6) {
+      color: #1abc9c;
+      text-shadow: 3px 3px 0 #16a085;
+      transform: rotate(2deg);
+    }
+    
+    /* 字母o */
+    .letter:nth-child(7) {
+      color: #3498db;
+      text-shadow: 3px 3px 0 #2980b9;
+      transform: rotate(-3deg) translateY(-2px);
+      font-size: 65px;
+    }
+    
+    /* 字母p */
+    .letter:nth-child(8) {
+      color: #2ecc71;
+      text-shadow: 3px 3px 0 #27ae60;
+      transform: rotate(2deg);
+    }
+    
+    /* 字母i */
+    .letter:nth-child(9) {
+      color: #9b59b6;
+      text-shadow: 3px 3px 0 #8e44ad;
+      transform: rotate(-2deg) translateY(-4px);
+    }
+    
+    /* 字母a */
+    .letter:nth-child(10) {
+      color: #e74c3c;
+      text-shadow: 3px 3px 0 #c0392b;
+      transform: rotate(3deg) translateY(-2px);
+      font-size: 65px;
+    }
+    
+    /* 对话气泡装饰 */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: -1;
+    }
+    
+    .bubble-1 {
+      width: 40px;
+      height: 40px;
+      top: -20px;
+      left: 20px;
+      background: linear-gradient(135deg, #3498db, #9b59b6);
+      opacity: 0.7;
+    }
+    
+    .bubble-2 {
+      width: 25px;
+      height: 25px;
+      top: 10px;
+      right: 50px;
+      background: linear-gradient(135deg, #2ecc71, #1abc9c);
+      opacity: 0.7;
+    }
+    
+    .bubble-3 {
+      width: 35px;
+      height: 35px;
+      bottom: -15px;
+      right: 20px;
+      background: linear-gradient(135deg, #e74c3c, #f39c12);
+      opacity: 0.7;
+    }
+    
+    /* AI元素 */
+    .ai-element {
+      position: absolute;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #3498db, #9b59b6);
+      border-radius: 8px;
+      padding: 3px 10px;
+      bottom: -15px;
+      right: -15px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transform: rotate(-5deg);
+    }
+    
+    /* 悬停效果 */
+    .artistic-text:hover .letter {
+      animation: bounce 0.5s ease;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
+      50% { transform: translateY(-15px) rotate(var(--rotation, 0deg)); }
+    }
+    
+    .letter:nth-child(1) { --rotation: -3deg; animation-delay: 0.0s; }
+    .letter:nth-child(2) { --rotation: 2deg; animation-delay: 0.1s; }
+    .letter:nth-child(3) { --rotation: -2deg; animation-delay: 0.2s; }
+    .letter:nth-child(4) { --rotation: 3deg; animation-delay: 0.3s; }
+    .letter:nth-child(5) { --rotation: -2deg; animation-delay: 0.4s; }
+    .letter:nth-child(6) { --rotation: 2deg; animation-delay: 0.5s; }
+    .letter:nth-child(7) { --rotation: -3deg; animation-delay: 0.6s; }
+    .letter:nth-child(8) { --rotation: 2deg; animation-delay: 0.7s; }
+    .letter:nth-child(9) { --rotation: -2deg; animation-delay: 0.8s; }
+    .letter:nth-child(10) { --rotation: 3deg; animation-delay: 0.9s; }
+    
+    .tagline {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #555;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <div class="artistic-text">
+      <div class="bubble bubble-1"></div>
+      <div class="bubble bubble-2"></div>
+      <div class="bubble bubble-3"></div>
+      
+      <span class="letter">T</span>
+      <span class="letter">a</span>
+      <span class="letter">l</span>
+      <span class="letter">k</span>
+      <span class="letter">U</span>
+      <span class="letter">t</span>
+      <span class="letter">o</span>
+      <span class="letter">p</span>
+      <span class="letter">i</span>
+      <span class="letter">a</span>
+      
+      <div class="ai-element">AI</div>
+    </div>
+    <div class="tagline">Where Conversations Create Learning</div>
+  </div>
+</body>
+</html>
