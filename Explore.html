@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop English Practice</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .scene-container {
+            position: relative;
+            width: 1820px;
+            height: 1024px;
+            background-image: url('coffee.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .menu-button {
+            position: absolute;
+            left: 950px;
+            top: 500px;
+            padding: 15px 30px;
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .menu-button:hover {
+            background-color: #A0522D;
+            transform: scale(1.05);
+        }
+        
+        .barista {
+            position: absolute;
+            left: 1300px;
+            top: 600px;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://cdn.pixabay.com/photo/2016/03/31/20/37/barista-1295745_1280.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .barista:hover {
+            transform: scale(1.1);
+        }
+        
+        .barista-tooltip {
+            position: absolute;
+            left: 1250px;
+            top: 550px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .barista:hover + .barista-tooltip {
+            display: block;
+        }
+        
+        .menu-modal, .conversation-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+        
+        .menu-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .menu-item h3 {
+            margin: 0;
+            color: #8B4513;
+        }
+        
+        .menu-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .menu-item .price {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .conversation-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+        
+        .conversation-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        
+        .barista-message {
+            background-color: #e6e6e6;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        
+        .user-message {
+            background-color: #DCF8C6;
+            align-self: flex-end;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .user-input {
+            display: flex;
+        }
+        
+        .user-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        
+        .user-input button {
+            padding: 10px 20px;
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene-container">
+        <button class="menu-button" onclick="showMenu()">View Menu</button>
+        <div class="barista" onclick="startConversation()"></div>
+        <div class="barista-tooltip">Click to chat with me!</div>
+    </div>
+    
+    <div class="overlay" id="overlay" onclick="closeModals()"></div>
+    
+    <div class="menu-modal" id="menuModal">
+        <span class="modal-close" onclick="closeMenu()">&times;</span>
+        <h2>Coffee Shop Menu</h2>
+        
+        <div class="menu-item">
+            <h3>Espresso</h3>
+            <p>A concentrated coffee served in small, strong shots.</p>
+            <p class="price">$2.50</p>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Cappuccino</h3>
+            <p>Espresso with steamed milk foam.</p>
+            <p class="price">$3.75</p>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Latte</h3>
+            <p>Espresso with steamed milk.</p>
+            <p class="price">$4.00</p>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Americano</h3>
+            <p>Espresso diluted with hot water.</p>
+            <p class="price">$3.00</p>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Mocha</h3>
+            <p>Espresso with chocolate and steamed milk.</p>
+            <p class="price">$4.50</p>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Croissant</h3>
+            <p>Buttery, flaky pastry.</p>
+            <p class="price">$2.75</p>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Blueberry Muffin</h3>
+            <p>Moist muffin filled with blueberries.</p>
+            <p class="price">$3.25</p>
+        </div>
+    </div>
+    
+    <div class="conversation-modal" id="conversationModal">
+        <span class="modal-close" onclick="closeConversation()">&times;</span>
+        <h2>Chat with Barista</h2>
+        
+        <div class="conversation-container">
+            <div class="conversation-messages" id="messages">
+                <div class="message barista-message">
+                    Hi there! Welcome to our coffee shop. What can I get for you today?
+                </div>
+            </div>
+            
+            <div class="user-input">
+                <input type="text" id="userInput" placeholder="Type your response..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showMenu() {
+            document.getElementById('menuModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        
+        function closeMenu() {
+            document.getElementById('menuModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+        
+        function startConversation() {
+            document.getElementById('conversationModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        
+        function closeConversation() {
+            document.getElementById('conversationModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+        
+        function closeModals() {
+            closeMenu();
+            closeConversation();
+        }
+        
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                // Add user message
+                addMessage(message, 'user');
+                userInput.value = '';
+                
+                // Simulate barista response after a short delay
+                setTimeout(() => {
+                    const response = getBaristaResponse(message);
+                    addMessage(response, 'barista');
+                }, 1000);
+            }
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            
+            // Scroll to the bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function getBaristaResponse(userMessage) {
+            // Simple response logic based on keywords
+            const lowerMessage = userMessage.toLowerCase();
+            
+            if (lowerMessage.includes('menu') || lowerMessage.includes('what do you have')) {
+                return "We have various coffee drinks like espresso, cappuccino, latte, and some pastries. Would you like to see our full menu?";
+            } else if (lowerMessage.includes('recommend') || lowerMessage.includes('suggestion')) {
+                return "I'd recommend our cappuccino. It's our most popular drink. Would you like to try it?";
+            } else if (lowerMessage.includes('cappuccino')) {
+                return "Great choice! Would you like that in small, medium, or large?";
+            } else if (lowerMessage.includes('latte')) {
+                return "Our lattes are delicious. Would you prefer it with regular milk, almond milk, or soy milk?";
+            } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('how much')) {
+                return "Our coffee ranges from $2.50 to $5.00 depending on the size and type. Pastries are around $3.00 each.";
+            } else if (lowerMessage.includes('thank')) {
+                return "You're welcome! Enjoy your day!";
+            } else if (lowerMessage.includes('bye') || lowerMessage.includes('goodbye')) {
+                return "Goodbye! Hope to see you again soon!";
+            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return "Hello! How can I help you today?";
+            } else {
+                return "I'm not sure I understand. Would you like to order a coffee or perhaps see our menu?";
+            }
+        }
+    </script>
+</body>
+</html>
